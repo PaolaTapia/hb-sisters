@@ -18,8 +18,9 @@ public class HbSistersApplication {
 	@Bean
 	CommandLineRunner initData(ClientRepository clientRepository){
 		return args -> {
-			Client cliente1= new Client( "juan perez");
+			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com");
 			clientRepository.save(cliente1);
+
 
 		};
 	}
