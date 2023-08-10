@@ -24,14 +24,19 @@ public class HbSistersApplication {
 	CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository){
 		return args -> {
 //la clave del uno va a la del mucho
-			Account account1=new Account("VIN002", myObj, 10.0);
+			Account account1=new Account("VIN001", myObj, 10.0);
+			Account account2=new Account("VIN002", myObj, 20.0);
 
 			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com");
 
-			clientRepository.save(cliente1); //	genero el ID
-			accountRepository.save(account1);
-				cliente1.addAccount(account1);
+			clientRepository.save(cliente1);//	genero el ID
 
+				cliente1.addAccount(account2);
+
+				cliente1.addAccount(account1);
+			accountRepository.save(account1);
+			accountRepository.save(account2);
+		//	System.out.println(account1);
 
 
 		};
