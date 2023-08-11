@@ -2,6 +2,8 @@ package com.example.hbsisters;
 
 import com.example.hbsisters.models.Account;
 import com.example.hbsisters.models.Client;
+import com.example.hbsisters.models.Transaction;
+import com.example.hbsisters.models.TypeTransaction;
 import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +30,10 @@ public class HbSistersApplication {
 			Account account2=new Account("VIN002", myObj, 20.0);
 
 			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com");
+
+			Transaction transaction1= new Transaction(TypeTransaction.CREDITO,1000,"retiro por cajero",myObj  );
+			Transaction transaction2= new Transaction(TypeTransaction.DEBITO,1000,"transferencia",myObj);
+
 
 			clientRepository.save(cliente1);//	genero el ID
 

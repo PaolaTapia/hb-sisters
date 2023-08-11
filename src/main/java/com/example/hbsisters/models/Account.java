@@ -17,7 +17,10 @@ public class Account {
     private String number;
     private LocalDate creationDate;
     private double balance;
-
+    //client
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="owner")
+    private Client owner;
     public Account() {
     }
 
@@ -55,11 +58,8 @@ public class Account {
         this.balance = balance;
     }
 
-    //client
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="owner")
-    private Client owner;
 
+    //client
     public Client getOwner() {
         return owner;
     }
