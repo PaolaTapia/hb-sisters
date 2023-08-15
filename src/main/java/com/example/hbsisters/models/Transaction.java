@@ -2,11 +2,8 @@ package com.example.hbsisters.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Transaction {
@@ -15,17 +12,19 @@ public class Transaction {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private TypeTransaction type ;
-    private double ammount ;
-    private  String descrption;
-    private LocalDate date;
-
+    private double amount;
+    private  String description;
+    private LocalDateTime date;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ownerc_id")
+    private Account owner_c;
     public Transaction() {
     }
 
-    public Transaction(TypeTransaction type, double ammount, String descrption, LocalDate date) {
+    public Transaction(TypeTransaction type, double amount, String description, LocalDateTime date) {
         this.type = type;
-        this.ammount = ammount;
-        this.descrption = descrption;
+        this.amount = amount;
+        this.description = description;
         this.date = date;
     }
 
@@ -41,27 +40,38 @@ public class Transaction {
         this.type = type;
     }
 
-    public double getAmmount() {
-        return ammount;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setAmmount(double ammount) {
-        this.ammount = ammount;
+    public void setAmount(double ammount) {
+        this.amount = ammount;
     }
 
-    public String getDescrption() {
-        return descrption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescrption(String descrption) {
-        this.descrption = descrption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public LocalDate getDate() {
+
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
+
+    public Account getOwnerc() {
+        return owner_c;
+    }
+
+    public void setOwnerc(Account owner_c) {
+        this.owner_c = owner_c;
+    }
+
 }

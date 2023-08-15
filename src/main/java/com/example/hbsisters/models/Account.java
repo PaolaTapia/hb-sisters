@@ -5,8 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -19,7 +21,7 @@ public class Account {
     private double balance;
     //client
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="owner")
+    @JoinColumn(name="owner_id")
     private Client owner;
     public Account() {
     }
@@ -57,7 +59,8 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
+    @OneToMany(mappedBy = "owner_c", fetch = FetchType.EAGER)
+    private Set<Transaction> transactions = new HashSet<>();
 
     //client
     public Client getOwner() {
@@ -67,31 +70,20 @@ public class Account {
     public void setOwner(Client owner) {
         this.owner = owner;
     }
-/*
-    private Map<String, Object> makePetDTO(Account account) {
-        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", account.getId());
-        dto.put("name", account.getNumber();
-        return dto;
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
     }
 
-    private Map<String, Object> AccountDTO(Client owner) {
-        Map<String, Object> dto = new LinkedHashMap<>();
-        dto.put("id", owner.getId());
-        dto.put("firstName", owner.getFirstName());
-        dto.put("lastName", owner.getLastName());
-        dto.put("email", owner.getEmail());
-        dto.put("client", ClientDTO(owner.getClient()));
-        return dto;
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
+    public void addTransaction(Transaction transaction) {
+        transaction.setOwnerc(this);
+        transactions.add(transaction);
+    }
 
-    public Map<String, Object> toDTO() {
-        Map<String, Object> dto = new LinkedHashMap<>();
-        dto.put("id", getId());
-        dto.put("number", getNumber());
-        return dto;
-    }*/
 
     @Override
     public String toString() {

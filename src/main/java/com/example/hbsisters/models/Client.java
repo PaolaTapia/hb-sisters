@@ -1,10 +1,15 @@
 package com.example.hbsisters.models;
 
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 public class Client {
@@ -19,13 +24,20 @@ public class Client {
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Account> accounts = new HashSet<>();
 
-    public Client() {
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private Set<ClientLoan> loans = new HashSet<>();
 
+    //private Set<ClientLoan> subscriptions = new HashSet<>();
+
+
+    public Client() {
     }
+
     public Client(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
     }
 
     public String getFirstName() {
@@ -58,9 +70,6 @@ public class Client {
     }
 
     //account
-
-
-
     public Set<Account> getAccounts() {
         return accounts;
     }
@@ -72,5 +81,14 @@ public class Client {
     public void addAccount(Account account) {
         account.setOwner(this);
         accounts.add(account);
+    }
+    @JsonIgnore
+    public List<Loan> getLoans() {
+        return loans.stream()
+                .map(sub -> sub.getLoan()).collect(toList());
+    }
+    public void addSubscription(ClientLoan subscription) {
+        subscription.setClient(this);
+        loans.add(subscription);
     }
 }

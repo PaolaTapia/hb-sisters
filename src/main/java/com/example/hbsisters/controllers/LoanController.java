@@ -1,7 +1,7 @@
 package com.example.hbsisters.controllers;
 
-import com.example.hbsisters.dtos.AccountDTO;
-import com.example.hbsisters.repositories.AccountRepository;
+import com.example.hbsisters.dtos.LoanDTO;
+import com.example.hbsisters.repositories.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,27 +12,27 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class AccountController {
+public class LoanController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private LoanRepository loanRepository;
 
-    @RequestMapping("/accounts")
-    public List<AccountDTO> getAccounts() {
+    @RequestMapping("/loans")
+    public List<LoanDTO> getLoans() {
 
-        return accountRepository
+        return loanRepository
                 .findAll()
                 .stream()
-                .map(AccountDTO::new)
+                .map(LoanDTO::new)
                 .collect(Collectors.toList());
     };
 
-    @RequestMapping("accounts/{id}")
-    public AccountDTO getAccountDTO(@PathVariable Long id){
+    @RequestMapping("loans/{id}")
+    public LoanDTO getLoanDTO(@PathVariable Long id){
 
-        return accountRepository
+        return loanRepository
                 .findById(id)
-                .map(AccountDTO::new)
+                .map(LoanDTO::new)
                 .orElse(null);
     }
 }

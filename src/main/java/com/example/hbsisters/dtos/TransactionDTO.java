@@ -3,20 +3,21 @@ package com.example.hbsisters.dtos;
 import com.example.hbsisters.models.Transaction;
 import com.example.hbsisters.models.TypeTransaction;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TransactionDTO {
 
     private Long id;
     private TypeTransaction type ;
-    private double ammount ;
-    private  String descrption;
-    private LocalDate date;
+    private double amount;
+    private  String description;
+    private LocalDateTime date;
 
     public TransactionDTO(Transaction transaction) {
+        this.id=transaction.getId();
         this.type = transaction.getType();
-        this.ammount = transaction.getAmmount();
-        this.descrption = transaction.getDescrption();
+        this.amount = transaction.getAmount();
+        this.description = transaction.getDescription();
         this.date = transaction.getDate();
     }
 
@@ -28,15 +29,15 @@ public class TransactionDTO {
         return type;
     }
 
-    public double getAmmount() {
-        return ammount;
+    public double getAmount() {
+        return amount;
     }
 
-    public String getDescrption() {
-        return descrption;
+    public String getDescription() {
+        return description;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 }
