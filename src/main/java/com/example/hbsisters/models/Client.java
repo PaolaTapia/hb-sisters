@@ -82,13 +82,17 @@ public class Client {
         account.setOwner(this);
         accounts.add(account);
     }
-    @JsonIgnore
+
     public List<Loan> getLoans() {
         return loans.stream()
                 .map(sub -> sub.getLoan()).collect(toList());
     }
-    public void addSubscription(ClientLoan subscription) {
-        subscription.setClient(this);
-        loans.add(subscription);
+
+    public Set<ClientLoan> getClientLoans() {
+        return loans;
+    }
+    public void addClientLoan(ClientLoan clientLoan) {
+        clientLoan.setClient(this);
+        loans.add(clientLoan);
     }
 }

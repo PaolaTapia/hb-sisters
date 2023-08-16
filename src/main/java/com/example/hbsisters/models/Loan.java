@@ -74,9 +74,9 @@ public class Loan {
         return clients.stream()
                 .map(sub -> sub.getClient()).collect(toList());
     }
-    public void addSubscription(ClientLoan subscription) {
-        subscription.setLoan(this);
-        clients.add(subscription);
+    public void addClientLoan(ClientLoan clientLoan) {
+        clientLoan.setLoan(this);
+        clients.add(clientLoan);
     }
 
 }

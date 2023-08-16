@@ -17,7 +17,7 @@ public class ClientLoanController {
     @Autowired
     private ClientLoanRepository clientLoanRepository;
 
-    @RequestMapping("/clientloans")
+    @RequestMapping("/client-loans")
     public List<ClientLoanDTO> getClientLoans() {
 
         return clientLoanRepository
@@ -29,7 +29,7 @@ public class ClientLoanController {
     };
 
 
-    @RequestMapping("clientloans/{id}")
+    @RequestMapping("client-loans/{id}")
     public ClientLoanDTO getClientLoanDTO(@PathVariable Long id){
 
         return clientLoanRepository

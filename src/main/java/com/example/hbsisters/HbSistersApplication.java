@@ -52,21 +52,21 @@ public class HbSistersApplication {
 			Loan loan3= new Loan("Automotriz", 300.000, payments3);
 
 
-
-
 				cliente1.addAccount(account2);
 				cliente1.addAccount(account1);
 				cliente2.addAccount(account3);
 
-			ClientLoan clientLoan1= new ClientLoan( 400.000, 60, cliente1, loan1);
-			ClientLoan clientLoan2= new ClientLoan( 50.000, 60, cliente1, loan2);
+			ClientLoan clientLoan1= new ClientLoan( 400.000, 60);
+			ClientLoan clientLoan2= new ClientLoan( 50.000, 60);
 
 
-				loan1.addSubscription(clientLoan1);
-				loan2.addSubscription(clientLoan2);
+			loan1.addClientLoan(clientLoan1);
+				loan2.addClientLoan(clientLoan2);
 
-				cliente1.addSubscription(clientLoan1);
-				cliente1.addSubscription(clientLoan2);
+				cliente1.addClientLoan(clientLoan1);
+				cliente1.addClientLoan(clientLoan2);
+
+
 
 			account1.addTransaction(transaction1);
 			account1.addTransaction(transaction2);
