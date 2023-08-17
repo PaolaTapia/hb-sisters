@@ -18,6 +18,7 @@ public class HbSistersApplication {
 	}
 
 	LocalDate myObj = LocalDate.now(); // Create a date object Display the current date
+	LocalDate date2 = LocalDate.now().plusYears(4); // Create a date object Display the current date
 	List<Integer> payments1 =List.of(12,24,36,48,60);
 	List<Integer> payments2 = List.of(6, 12,24);
 
@@ -29,8 +30,8 @@ public class HbSistersApplication {
 			AccountRepository accountRepository,
 			TransactionRepository transactionRepository,
 			LoanRepository loanRepository,
-			ClientLoanRepository clientLoanRepository
-
+			ClientLoanRepository clientLoanRepository,
+			CardRepository cardRepository
 			){
 		return args -> {
 //la clave del uno va a la del mucho
@@ -50,6 +51,9 @@ public class HbSistersApplication {
 			Loan loan1= new Loan("Hipotecario", 500.000, payments1);
 			Loan loan2= new Loan("Personal", 100.000, payments2);
 			Loan loan3= new Loan("Automotriz", 300.000, payments3);
+
+			Card card1= new Card(CardType.DEBIT, "1234-5678-9012-3456", 123, myObj,date2, ColorType.GOLD,cliente1);
+			Card card2= new Card(CardType.CREDIT, "1234-5678-9012-3452", 125, myObj,date2, ColorType.TITANIUM,cliente1);
 
 
 				cliente1.addAccount(account2);
@@ -74,6 +78,8 @@ public class HbSistersApplication {
 			account2.addTransaction(transaction4);
 
 
+
+
 			clientRepository.save(cliente1);
 			clientRepository.save(cliente2);//	genero el ID
 
@@ -92,7 +98,10 @@ public class HbSistersApplication {
 			loanRepository.save(loan3);
 
 			clientLoanRepository.save(clientLoan1);
+			clientLoanRepository.save(clientLoan2);
 
+			cardRepository.save(card1);
+			cardRepository.save(card2);
 		};
 	}
 }
