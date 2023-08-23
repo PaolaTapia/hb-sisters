@@ -2,18 +2,21 @@ package com.example.hbsisters;
 
 import com.example.hbsisters.models.*;
 import com.example.hbsisters.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
 public class HbSistersApplication {
-
-	public static void main(String[] args) {
+@Autowired
+private PasswordEncoder passwordEncoder;
+ 	public static void main(String[] args) {
 		SpringApplication.run(HbSistersApplication.class, args);
 	}
 
@@ -45,8 +48,8 @@ public class HbSistersApplication {
 			Account account2=new Account("VIN002", myObj, 20.0);
 			Account account3=new Account("VIN003", myObj, 30.0);
 
-			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com");
-			Client cliente2=new Client("Melbor", "Morelli", "melba@mindhub.com");
+			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba"));
+			Client cliente2=new Client("Rodrigo", "Ribeiro", "rodrigo@mindhub.com",passwordEncoder.encode( "rodri"));
 
 			Loan loan1= new Loan("Hipotecario", 500.000, payments1);
 			Loan loan2= new Loan("Personal", 100.000, payments2);
@@ -62,22 +65,20 @@ public class HbSistersApplication {
 
 			ClientLoan clientLoan1= new ClientLoan( 400.000, 60);
 			ClientLoan clientLoan2= new ClientLoan( 50.000, 60);
+			ClientLoan clientLoan3= new ClientLoan( 150.000, 60);
 
-
-			loan1.addClientLoan(clientLoan1);
+				loan1.addClientLoan(clientLoan1);
 				loan2.addClientLoan(clientLoan2);
+				loan3.addClientLoan(clientLoan3);
 
 				cliente1.addClientLoan(clientLoan1);
-				cliente1.addClientLoan(clientLoan2);
-
+				cliente2.addClientLoan(clientLoan3);
 
 
 			account1.addTransaction(transaction1);
 			account1.addTransaction(transaction2);
 			account2.addTransaction(transaction3);
 			account2.addTransaction(transaction4);
-
-
 
 
 			clientRepository.save(cliente1);

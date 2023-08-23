@@ -2,6 +2,7 @@ package com.example.hbsisters.models;
 
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class Client {
 
     private String lastName;
     private String email;
+
+    private String password;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Account> accounts = new HashSet<>();
 
@@ -33,12 +36,17 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String email) {
+
+    public Client(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-
+        this.password = password;
     }
+
+   /* public Client(String email, String password, List<GrantedAuthority> client) {
+    }*/
+
 
     public String getFirstName() {
         return firstName;
@@ -111,5 +119,13 @@ public class Client {
     public void addCard(Card card) {
         card.setHolder(this);
         cards.add(card);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
