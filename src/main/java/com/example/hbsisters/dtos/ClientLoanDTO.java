@@ -5,9 +5,7 @@ import com.example.hbsisters.models.ClientLoan;
 import javax.persistence.*;
 
 public class ClientLoanDTO {
-
     private Long id;
-
     private double amount;
     private int payment;
 
@@ -22,7 +20,6 @@ public class ClientLoanDTO {
 
     public ClientLoanDTO() {
     }
-
 
     public ClientLoanDTO(ClientLoan clientLoan) {
         this.id = clientLoan.getId();
@@ -40,31 +37,18 @@ public class ClientLoanDTO {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
     public int getPayment() {
         return payment;
     }
 
-    public void setPayment(int payment) {
-        this.payment = payment;
-    }
 
     public Long getLoan() {
         return loan;
-    }
-
-    public void setLoan(Long loan) {
-        this.loan = loan;
     }
 
     public Long getClient() {
         return client;
     }
 
-    public void setClient(Long client) {
-        this.client = client;
-    }
 }

@@ -68,6 +68,9 @@ public class Loan {
     public void setClients(Set<ClientLoan> client) {
         this.clients = client;
     }
+    public Set<ClientLoan> getClientLoans() {
+        return clients;
+    }
 
     @JsonIgnore
     public List<Client> getClients() {

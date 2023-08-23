@@ -56,7 +56,7 @@ public class WebAuthorization {
 
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
-        http.logout().logoutUrl("/app/logout");
+        http.logout().logoutUrl("/api/logout");
 
         return http.build();
 

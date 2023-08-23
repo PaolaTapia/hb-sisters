@@ -36,7 +36,6 @@ public class Client {
     public Client() {
     }
 
-
     public Client(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,9 +43,9 @@ public class Client {
         this.password = password;
     }
 
-   /* public Client(String email, String password, List<GrantedAuthority> client) {
-    }*/
-
+    public Long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -71,11 +70,14 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-    public Long getId() {
-        return id;
+    public String getPassword() {
+        return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     //account
     public Set<Account> getAccounts() {
@@ -86,10 +88,6 @@ public class Client {
         this.accounts = accounts;
     }
 
-    public void addAccount(Account account) {
-        account.setOwner(this);
-        accounts.add(account);
-    }
 
     public List<Loan> getLoans() {
         return loans.stream()
@@ -103,10 +101,6 @@ public class Client {
     public Set<ClientLoan> getClientLoans() {
         return loans;
     }
-    public void addClientLoan(ClientLoan clientLoan) {
-        clientLoan.setClient(this);
-        loans.add(clientLoan);
-    }
 
     public Set<Card> getCards() {
         return cards;
@@ -116,16 +110,16 @@ public class Client {
         this.cards = cards;
     }
 
+    public void addAccount(Account account) {
+        account.setOwner(this);
+        accounts.add(account);
+    }
+    public void addClientLoan(ClientLoan clientLoan) {
+        clientLoan.setClient(this);
+        loans.add(clientLoan);
+    }
     public void addCard(Card card) {
         card.setHolder(this);
         cards.add(card);
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

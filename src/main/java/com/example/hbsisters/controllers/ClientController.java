@@ -1,11 +1,16 @@
 package com.example.hbsisters.controllers;
 
 import com.example.hbsisters.dtos.ClientDTO;
+import com.example.hbsisters.models.Client;
 import com.example.hbsisters.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,8 +21,10 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     private ClientRepository clientRepository;
-
+    //    @RequestMapping(path = "/clients", method = RequestMethod.POST)
     @RequestMapping("/clients")
     public List<ClientDTO> getClients (){
 
@@ -44,4 +51,27 @@ public class ClientController {
                 .findByEmail(authentication.getName()));
     }
 
+
+    public ResponseEntity<Object> register(
+
+            @RequestParam String firstName, @RequestParam String lastName,
+
+            @RequestParam String email, @RequestParam String password) {
+
+
+
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        }
+
+
+        if (clientRepository.findByEmail(email) != null) {
+            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        }
+
+        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
 }
