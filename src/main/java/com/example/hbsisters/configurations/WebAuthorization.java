@@ -18,7 +18,7 @@ public class WebAuthorization {
     @Bean
 
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http.authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers( "/web/js/**","/web/css/**", "/web/img/**","/web/index.html").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
