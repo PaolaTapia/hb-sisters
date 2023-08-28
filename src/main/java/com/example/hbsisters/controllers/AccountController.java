@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AccountController {
 
+    //inyeccion de dependencia
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -45,20 +46,12 @@ public class AccountController {
                 .orElse(null);
     }
 
-//preguntar
-   /* @RequestMapping("/clients/current")
-    public ClientDTO getClientDTO(Authentication authentication){
 
-        return  new ClientDTO( clientRepository
-                .findByEmail(authentication.getName()));
-    }
-*/
-    //@PostMapping(path = "/clients")
-    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+    @PostMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> register(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
 
-        if(client.getAccounts().size()>3) {return new ResponseEntity<>("Alcanzaste el Máximo de Cuentas", HttpStatus.FORBIDDEN);}
+        if(client.getAccounts().size()>3) {return new ResponseEntity<>("too many accounts", HttpStatus.FORBIDDEN);}
 
         Account account= new Account( "VIN-"+((int)(Math.random() * (99999999 - 10000000)) + 10000000), LocalDate.now(), 0);
         client.addAccount(account);

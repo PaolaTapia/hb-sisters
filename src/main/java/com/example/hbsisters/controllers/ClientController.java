@@ -1,7 +1,9 @@
 package com.example.hbsisters.controllers;
 
 import com.example.hbsisters.dtos.ClientDTO;
+import com.example.hbsisters.models.Account;
 import com.example.hbsisters.models.Client;
+import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +21,11 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private ClientRepository clientRepository;
+    private AccountRepository accountRepository;
     //    @RequestMapping(path = "/clients", method = RequestMethod.POST)
     @RequestMapping("/clients")
     public List<ClientDTO> getClients (){
@@ -61,12 +66,17 @@ public class ClientController {
            return new ResponseEntity<>("Missing password", HttpStatus.FORBIDDEN);
         }
 
+
         if (clientRepository.findByEmail(email) != null) {
             return new ResponseEntity<>("UserName already in use", HttpStatus.FORBIDDEN);
         }
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Client client= new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        clientRepository.save(client);
 
+        Account account= new Account( "VIN-"+((int)(Math.random() * (99999999 - 10000000)) + 10000000), LocalDate.now(), 0);
+        client.addAccount(account);
+        accountRepository.save(account);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

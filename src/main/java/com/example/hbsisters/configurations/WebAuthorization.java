@@ -19,12 +19,15 @@ public class WebAuthorization {
 
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers( "/web/js/**","/web/css/**", "/web/img/**","/web/index.html").permitAll()
+                //solo para pruebas en desarrollo:
+                .antMatchers( "/api/**", "/rest/**", "/h2-console").permitAll()
+                .antMatchers( "/web/index.html","/web/css/**", "/web/img/**","/web/js/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/logout").permitAll()
-                .antMatchers("/admin/**", "/web/manager.html").hasAuthority("ADMIN")
-                .antMatchers("api/**", "/web/accounts.html","/web/account.html","api/clients/**", "/**").hasAuthority("CLIENT");
+                .antMatchers(HttpMethod.POST,"/api/clients").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/logout").hasAuthority("CLIENT")
+                .antMatchers("api/clients/current/**","/api/**","/web/*.html", "/web/**" ).hasAuthority("CLIENT")
+                .antMatchers("/web/**","/admin/**", "/manager.html", "/h2-console", "/**").hasAuthority("ADMIN")
+                .anyRequest().denyAll();
 
         http.formLogin()
                 .usernameParameter("email")
@@ -36,11 +39,11 @@ public class WebAuthorization {
         http.csrf().disable();
 
 
-        //disabling frameOptions so h2-console can be accessed
+        //disabling frameOptions so h2-console can be accessed, para permitir contenido de 3ros
 
         http.headers().frameOptions().disable();
 
-        // if user is not authenticated, just send an authentication failure response
+        // if user is not authenticated, just send an authentication failure response, 401 si no tenes permiso
 
         http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
@@ -56,7 +59,8 @@ public class WebAuthorization {
 
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
-        http.logout().logoutUrl("/api/logout");
+
+        http.logout().logoutUrl("/api/logout").deleteCookies("JSESSIONID");
 
         return http.build();
 

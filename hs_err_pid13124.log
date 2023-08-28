@@ -1,0 +1,199 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 201326592 bytes for Failed to commit area from 0x0000000741e00000 to 0x000000074de00000 of length 201326592.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./src/hotspot/os/windows/os_windows.cpp:3390), pid=13124, tid=17024
+#
+# JRE version:  (11.0.15+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.15+10, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Xverify:none -XX:TieredStopAtLevel=1 -Dfile.encoding=windows-1252 -Duser.country=AR -Duser.language=es -Duser.variant com.example.hbsisters.HbSistersApplication
+
+Host: Intel(R) Core(TM) i3-7100U CPU @ 2.40GHz, 4 cores, 11G,  Windows 10 , 64 bit Build 19041 (10.0.19041.3155)
+Time: Sat Aug 26 12:53:02 2023 Hora estándar de Argentina elapsed time: 0.017123 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000020fee54c800):  JavaThread "Unknown thread" [_thread_in_vm, id=17024, stack(0x000000da3d600000,0x000000da3d700000)]
+
+Stack: [0x000000da3d600000,0x000000da3d700000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x64dd3a]
+V  [jvm.dll+0x7906c9]
+V  [jvm.dll+0x791d9c]
+V  [jvm.dll+0x792463]
+V  [jvm.dll+0x265048]
+V  [jvm.dll+0x64ac9a]
+V  [jvm.dll+0x63f205]
+V  [jvm.dll+0x32090c]
+V  [jvm.dll+0x320792]
+V  [jvm.dll+0x326076]
+V  [jvm.dll+0x374b2f]
+V  [jvm.dll+0x374550]
+V  [jvm.dll+0x2fbec8]
+V  [jvm.dll+0x2fd036]
+V  [jvm.dll+0x769e77]
+V  [jvm.dll+0x76b63f]
+V  [jvm.dll+0x3819c9]
+V  [jvm.dll+0x74c60e]
+V  [jvm.dll+0x3f489d]
+V  [jvm.dll+0x3f6ab1]
+C  [jli.dll+0x51c7]
+C  [ucrtbase.dll+0x21bb2]
+C  [KERNEL32.DLL+0x17614]
+C  [ntdll.dll+0x526b1]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x0000020fec34d070, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x0000020fee565000 GCTaskThread "GC Thread#0" [stack: 0x000000da3d700000,0x000000da3d800000] [id=1392]
+  0x0000020fee5ad800 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000da3d800000,0x000000da3d900000] [id=2404]
+  0x0000020fee5af000 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000da3d900000,0x000000da3da00000] [id=4260]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffd70f3b8e7]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000020fee5484f0] Heap_lock - owner thread: 0x0000020fee54c800
+
+Heap address: 0x0000000741e00000, size: 3042 MB, Compressed Oops mode: Non-zero based: 0x0000000741e00000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (1 events):
+Event: 0.011 Loaded shared library C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\zip.dll
+
+
+Dynamic libraries:
+0x00007ff62f940000 - 0x00007ff62f94d000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\java.exe
+0x00007ffdcccd0000 - 0x00007ffdccec8000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffdcb4d0000 - 0x00007ffdcb58f000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffdca610000 - 0x00007ffdca906000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffdca450000 - 0x00007ffdca550000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffdc3f00000 - 0x00007ffdc3f16000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\VCRUNTIME140.dll
+0x00007ffdc4960000 - 0x00007ffdc4978000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\jli.dll
+0x00007ffdcb310000 - 0x00007ffdcb4ad000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffdca910000 - 0x00007ffdca932000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffdbe8f0000 - 0x00007ffdbeb8a000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e\COMCTL32.dll
+0x00007ffdcb5c0000 - 0x00007ffdcb65e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffdcb590000 - 0x00007ffdcb5bc000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffdcaab0000 - 0x00007ffdcabc5000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffdca3b0000 - 0x00007ffdca44d000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffdcc7b0000 - 0x00007ffdcc7e0000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffda4d30000 - 0x00007ffda4dda000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\msvcp140.dll
+0x00007ffd70c30000 - 0x00007ffd71781000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\server\jvm.dll
+0x00007ffdcbc10000 - 0x00007ffdcbcbf000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffdcad30000 - 0x00007ffdcadcc000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffdcbd70000 - 0x00007ffdcbe96000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffdcc7a0000 - 0x00007ffdcc7a8000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffdbe840000 - 0x00007ffdbe849000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffdbd360000 - 0x00007ffdbd387000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffdcb7c0000 - 0x00007ffdcb82b000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffdc21e0000 - 0x00007ffdc21ea000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffdc8ba0000 - 0x00007ffdc8bb2000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffdc25f0000 - 0x00007ffdc2601000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\verify.dll
+0x00007ffdc80c0000 - 0x00007ffdc82a4000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffdc22b0000 - 0x00007ffdc22e4000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffdca550000 - 0x00007ffdca5d2000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffdb8220000 - 0x00007ffdb8249000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\java.dll
+0x00007ffdc4380000 - 0x00007ffdc438a000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\jimage.dll
+0x00007ffdb8200000 - 0x00007ffdb8218000 	C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\zip.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e;C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin\server
+
+VM Arguments:
+jvm_args: -Xverify:none -XX:TieredStopAtLevel=1 -Dfile.encoding=windows-1252 -Duser.country=AR -Duser.language=es -Duser.variant 
+java_command: com.example.hbsisters.HbSistersApplication
+java_class_path (initial): F:\CURSOS\MINDHUB\JAVA BACKEND\hb-sisters\build\classes\java\main;F:\CURSOS\MINDHUB\JAVA BACKEND\hb-sisters\build\resources\main;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\com.h2database\h2\2.1.214\d5c2005c9e3279201e12d4776c948578b16bf8b2\h2-2.1.214.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.security\spring-security-config\5.7.10\a70c03d16c209b836006ed1b58b5818286bfee00\spring-security-config-5.7.10.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.security\spring-security-web\5.7.10\9c3445fe7b5933f856e1b8237d5f2a74a30c61d1\spring-security-web-5.7.10.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.data\spring-data-jpa\2.7.14\d5f2e34cce48ed4d668e760db200e854cbbe4d87\spring-data-jpa-2.7.14.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.data\spring-data-rest-webmvc\3.7.14\6e323d6c602f32e5fc0d4122469419cc537b97b1\spring-data-rest-webmvc-3.7.14.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework\spring-webmvc\5.3.29\fdaefee29fcb8459aab748b571d8bb7bb7fdb175\spring-webmvc-5.3.29.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.security\spring-security-core\5.7.10\2cfe7d1ae22eff5d18c86f00feae346789ec14\spring-security-core-5.7.10.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-autoconfigure\2.7.14\4851957607f74fc4335858d66fb755f1b0c95006\spring-boot-autoconfigure-2.7.14.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot\2.7.14\762261093a3e15388216c45d6a9ba7fdc022b74d\spring-boot-2.7.14.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.data\spring-data-rest-core\3.7.14\381541f8b3f1a52abaf5618f71e1483075f9d9b3\spring-data-rest-core-3.7.14.jar;C:\Users\Paola\.gradle\caches\modules-2\files-2.1\org.springframework.hateoas\spring-hateoas\1.5.5\88e9d4b1af58eda7bfaa83dfb362392ce1bf7d27\spr
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     bool BytecodeVerificationLocal                = false                                     {product} {command line}
+     bool BytecodeVerificationRemote               = false                                     {product} {command line}
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 201326592                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 3189768192                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 6973028                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 244685212                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 0                                      {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     intx TieredStopAtLevel                        = 1                                         {product} {command line}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\OpenJDK\openjdk-11.0.15_10
+CLASSPATH=.;
+PATH=C:\Miniconda3;C:\Miniconda3\Library\mingw-w64\bin;C:\Miniconda3\Library\usr\bin;C:\Miniconda3\Library\bin;C:\Miniconda3\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Users\Paola\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Git\cmd;C:\Users\Paola\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\OpenJDK\openjdk-11.0.15_10\bin;C:\Users\Paola\AppData\Local\Microsoft\WindowsApps;C:\Users\Paola\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Miniconda3\python;C:\CursoDjango\blog\myenv\Scripts\eb;C:\Users\Paola\AppData\Roaming\Python\Python37\Scripts;C:\Program Files\Java\jdk1.8.0_211\bin;C:\src\flutter\bin;C:\Users\Paola\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Paola\AppData\Local\Programs\oh-my-posh\bin
+USERNAME=Paola
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 19041 (10.0.19041.3155)
+OS uptime: 12 days 0:57 hours
+Hyper-V role detected
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9 microcode 0xb4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx, fma
+
+Memory: 4k page, system-wide physical 12160M (1601M free)
+TotalPageFile size 12160M (AvailPageFile size 31M)
+current process WorkingSet (physical memory assigned to process): 10M, peak: 10M
+current process commit charge ("private bytes"): 49M, peak: 241M
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.15+10) for windows-amd64 JRE (11.0.15+10), built on Apr 21 2022 21:29:46 by "tester" with MS VC++ 15.5 (VS2017)
+
+END.
