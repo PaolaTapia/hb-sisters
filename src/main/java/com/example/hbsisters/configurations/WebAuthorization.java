@@ -19,18 +19,18 @@ public class WebAuthorization {
 
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //solo para pruebas en desarrollo:
-                .antMatchers( "/api/**", "/rest/**").permitAll()
-                .antMatchers( "/h2-console/**").permitAll()
-                .antMatchers( "/web/index.html","/web/css/**", "/web/img/**","/web/js/**").permitAll()
+                //solo para pruebas:
+             //  .antMatchers( "/**").permitAll();
+                 .antMatchers( "/web/index.html","/web/css/**", "/web/img/**","/web/js/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/clients/current/cards","/api/**" ).hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/logout").hasAuthority("CLIENT")
                 .antMatchers("/clients/current/cards","/api/**","/web/*.html", "/web/**" ).hasAuthority("CLIENT")
-                .antMatchers("/web/**","/admin/**", "/manager.html", "/h2-console", "/**").hasAuthority("ADMIN")
+                .antMatchers("/web/**","/admin/**", "/h2-console", "/**").hasAuthority("ADMIN")
                 .anyRequest().denyAll();
-//        .anyRequest().authenticated();
+       // .anyRequest().authenticated();
+
 
         http.formLogin()
                 .usernameParameter("email")
