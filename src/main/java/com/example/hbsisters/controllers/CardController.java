@@ -1,6 +1,5 @@
 package com.example.hbsisters.controllers;
 
-import com.example.hbsisters.dtos.AccountDTO;
 import com.example.hbsisters.dtos.CardDTO;
 import com.example.hbsisters.models.*;
 import com.example.hbsisters.repositories.CardRepository;
@@ -32,7 +31,7 @@ public class CardController {
                 .stream()
                 .map(CardDTO::new)
                 .collect(Collectors.toList());
-    };
+    }
 
     @RequestMapping("/cards/{id}")
     public CardDTO getCardDTO(@PathVariable Long id){
@@ -45,22 +44,27 @@ public class CardController {
 
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
-    public ResponseEntity<Object> register( @RequestParam CardType cardType, @RequestParam ColorType colorType, Authentication authentication) {
+    public ResponseEntity<Object> register( @RequestParam CardType cardType, @RequestParam ColorType cardColor, Authentication authentication) {
 
         Client client = clientRepository.findByEmail(authentication.getName());
 
-        Set<Card> cards= client.getCards();
-
+//también lo chequea el front
         if (cardType==null ) {
              return new ResponseEntity<>("You must select a card type", HttpStatus.FORBIDDEN);
 
-        } else if ( colorType==null) {
+        } else if ( cardColor==null) {
             return new ResponseEntity<>("You must select a card color", HttpStatus.FORBIDDEN);
         }
 
-        if(cards.size()>3) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
+        Set<Card> cards= client.getCards();
+        Set<Card> cards2=cards.stream().filter(card -> (card.getType() == cardType)).collect(Collectors.toSet());
+        Set<Card> cards3=cards.stream().filter(card -> (card.getType() == cardType && card.getColor() == cardColor)).collect(Collectors.toSet());
 
-        Card card= new Card((CardType) cardType, ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000), ((int)(Math.random() * (999 - 100)) + 100), LocalDate.now(),LocalDate.now().plusYears(4), (ColorType) colorType,client);
+        if(cards2.size()>=3) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
+        if(!cards3.isEmpty()) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
+
+        Card card= new Card( cardType, ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000), ((int)(Math.random() * (999 - 100)) + 100), LocalDate.now(),LocalDate.now().plusYears(5), cardColor,client);
+
 
         client.addCard(card);
         cardRepository.save(card);

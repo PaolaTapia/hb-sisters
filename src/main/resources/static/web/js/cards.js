@@ -25,6 +25,7 @@ Vue.createApp({
         },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
+
         },
         signOut: function () {
             axios.post('/api/logout')
