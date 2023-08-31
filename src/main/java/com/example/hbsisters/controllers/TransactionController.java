@@ -38,7 +38,7 @@ public class TransactionController {
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping("transactions/{id}")
+    @RequestMapping("/transactions/{id}")
     public TransactionDTO getTransactionDTO(@PathVariable Long id){
 
         return transactionRepository
@@ -48,10 +48,10 @@ public class TransactionController {
     }
 
     @Transactional
-    @PostMapping(path = "/clients/current/transactions")
-    public ResponseEntity<Object> register(
+    @PostMapping(path = "/transactions")
+    public ResponseEntity<Object> registerTransaction(
             @RequestParam double amount, @RequestParam String description,
-            @RequestParam  String number_origin, @RequestParam  String number_dest,
+            @RequestParam  String fromAccountNumber, @RequestParam  String toAccountNumber,
             Authentication authentication)  {
 
         Client client = clientRepository.findByEmail(authentication.getName());
@@ -60,15 +60,15 @@ public class TransactionController {
             return new ResponseEntity<>("Missing amount or description", HttpStatus.FORBIDDEN);
         }
 
-        if (number_origin.isEmpty()) {
+        if (fromAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Missing origin account number.", HttpStatus.FORBIDDEN);
         }
 
-        if (number_dest.isEmpty()) {
+        if (toAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Missing destination account number.", HttpStatus.FORBIDDEN);
         }
 
-        Account origin_account= accountRepository.findByNumber(number_origin);
+        Account origin_account= accountRepository.findByNumber(fromAccountNumber);
 
         if(origin_account==null){
             return new ResponseEntity<>("Origin account number does not exist.", HttpStatus.FORBIDDEN);
@@ -84,21 +84,29 @@ public class TransactionController {
         if(!accounts.contains(origin_account)){
             return new ResponseEntity<>("Origin account number does not belong to you.", HttpStatus.FORBIDDEN);
         };
-
-        if(accountRepository.findByNumber(number_dest)==null){
+        Account dest_account= accountRepository.findByNumber(toAccountNumber);
+        if(dest_account==null){
             return new ResponseEntity<>("Destination account number does not exist.", HttpStatus.FORBIDDEN);
         };
 
-        if (number_origin.equals(number_dest)) {
+        if (fromAccountNumber.equals(toAccountNumber)) {
             return new ResponseEntity<>("Origin account it's same that destination account.", HttpStatus.FORBIDDEN);
         }
 
-        Transaction transaction_orig = new Transaction(TypeTransaction.DEBIT,amount, "transferencia enviada",LocalDate.now().atStartOfDay());
+        Transaction transaction_orig = new Transaction(TypeTransaction.DEBIT,- amount, description,LocalDate.now().atStartOfDay());
+        Transaction transaction_dest = new Transaction(TypeTransaction.CREDIT,amount, description,LocalDate.now().atStartOfDay());
+
         origin_account.addTransaction(transaction_orig);
-        Transaction transaction_dest = new Transaction(TypeTransaction.CREDIT,amount, "transferencia recibida",LocalDate.now().atStartOfDay());
-        origin_account.addTransaction(transaction_dest);
+        origin_account.setBalance(origin_account.getBalance()-amount);
+        dest_account.addTransaction(transaction_dest);
+        dest_account.setBalance(dest_account.getBalance()+amount);
+
         transactionRepository.save(transaction_orig);
         transactionRepository.save(transaction_dest);
+
+        accountRepository.save(origin_account);
+        accountRepository.save(dest_account);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
 
 
