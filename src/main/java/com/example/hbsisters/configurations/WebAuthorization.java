@@ -23,10 +23,10 @@ public class WebAuthorization {
              //  .antMatchers( "/**").permitAll();
                  .antMatchers( "/web/index.html","/web/css/**", "/web/img/**","/web/js/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/clients").hasAuthority("CLIENT")
-                .antMatchers(HttpMethod.POST,"/clients/current/cards","/api/**" ).hasAuthority("CLIENT")
-                .antMatchers(HttpMethod.POST, "/api/logout").hasAuthority("CLIENT")
-                .antMatchers("/clients/current/cards","/api/**","/web/*.html" ).hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST,"/api/clients").hasAnyAuthority("ADMIN", "CLIENT")
+                .antMatchers(HttpMethod.POST,"/clients/current/cards","/api/**" ).hasAnyAuthority("ADMIN", "CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/logout").hasAnyAuthority("ADMIN", "CLIENT")
+                .antMatchers("/clients/current/cards","/api/**","/web/*.html" ).hasAnyAuthority("ADMIN", "CLIENT")
                 .antMatchers( "/h2-console/**","/web/*" ).hasAnyAuthority("ADMIN", "CLIENT")
                 .antMatchers("/admin/**", "/**").hasAuthority("ADMIN")
                 .anyRequest().denyAll();
