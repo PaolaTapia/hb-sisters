@@ -50,6 +50,7 @@ private PasswordEncoder passwordEncoder;
 
 			Client cliente1=new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba"));
 			Client cliente2=new Client("Rodrigo", "Ribeiro", "rodrigo@mindhub.com",passwordEncoder.encode( "rodri"));
+			Client cliente3=new Client("Rodrigo", "Ribeiro", "admin@mindhub.com",passwordEncoder.encode( "rodri"));
 
 			Loan loan1= new Loan("Hipotecario", 500.000, payments1);
 			Loan loan2= new Loan("Personal", 100.000, payments2);
@@ -82,7 +83,8 @@ private PasswordEncoder passwordEncoder;
 
 
 			clientRepository.save(cliente1);
-			clientRepository.save(cliente2);//	genero el ID
+			clientRepository.save(cliente2);
+			clientRepository.save(cliente3);
 
 
 			accountRepository.save(account1);
