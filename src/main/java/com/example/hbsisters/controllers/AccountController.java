@@ -48,12 +48,17 @@ public class AccountController {
 
 
     @PostMapping(path = "/clients/current/accounts")
-    public ResponseEntity<Object> register(Authentication authentication) {
+    public ResponseEntity<Object> registerAccount(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());
 
         if(client.getAccounts().size()>3) {return new ResponseEntity<>("too many accounts", HttpStatus.FORBIDDEN);}
 
-        Account account= new Account( "VIN-"+((int)(Math.random() * (99999999 - 10000000)) + 10000000), LocalDate.now(), 0);
+        String newNumberAccount="VIN-"+((int)(Math.random() * (99999999 - 10000000)) + 10000000);
+        if(accountRepository.findByNumber(newNumberAccount)!=null) {
+            return new ResponseEntity<>("Account Number already exists", HttpStatus.FORBIDDEN);
+        }
+
+        Account account= new Account( newNumberAccount, LocalDate.now(), 0);
         client.addAccount(account);
         accountRepository.save(account);
         return new ResponseEntity<>(HttpStatus.CREATED);

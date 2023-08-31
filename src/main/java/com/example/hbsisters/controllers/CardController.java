@@ -44,7 +44,7 @@ public class CardController {
 
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
-    public ResponseEntity<Object> register( @RequestParam CardType cardType, @RequestParam ColorType cardColor, Authentication authentication) {
+    public ResponseEntity<Object> registerCard( @RequestParam CardType cardType, @RequestParam ColorType cardColor, Authentication authentication) {
 
         Client client = clientRepository.findByEmail(authentication.getName());
 
@@ -63,7 +63,12 @@ public class CardController {
         if(cards2.size()>=3) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
         if(!cards3.isEmpty()) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
 
-        Card card= new Card( cardType, ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000), ((int)(Math.random() * (999 - 100)) + 100), LocalDate.now(),LocalDate.now().plusYears(5), cardColor,client);
+        String newNumberCard= ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000);
+        if(cardRepository.findByNumber(newNumberCard)!=null) {
+            return new ResponseEntity<>("Card Number already exists", HttpStatus.FORBIDDEN);
+        }
+
+        Card card= new Card( cardType, newNumberCard, ((int)(Math.random() * (999 - 100)) + 100), LocalDate.now(),LocalDate.now().plusYears(5), cardColor,client);
 
 
         client.addCard(card);
