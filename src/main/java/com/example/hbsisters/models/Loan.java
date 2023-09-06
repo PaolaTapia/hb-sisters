@@ -19,7 +19,7 @@ public class Loan {
     private Long id;
 
     private String name;
-    private double amount;
+    private double maxAmount;
     @ElementCollection
     private List<Integer> payments = new ArrayList<>();
 
@@ -31,9 +31,9 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(String name, double amount, List<Integer> payments) {
+    public Loan(String name, double maxAmount, List<Integer> payments) {
         this.name = name;
-        this.amount = amount;
+        this.maxAmount = maxAmount;
         this.payments = payments;
     }
 
@@ -49,12 +49,12 @@ public class Loan {
         this.name = name;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getMaxAmount() {
+        return maxAmount;
     }
 
-    public void setAmount(double maxAmount) {
-        this.amount = maxAmount;
+    public void setMaxAmount(double maxAmount) {
+        this.maxAmount = maxAmount;
     }
 
     public List<Integer> getPayments() {

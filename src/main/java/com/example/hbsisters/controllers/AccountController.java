@@ -5,6 +5,7 @@ import com.example.hbsisters.models.Account;
 import com.example.hbsisters.models.Client;
 import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
+import com.example.hbsisters.services.AccountService;
 import com.example.hbsisters.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,13 @@ public class AccountController {
     //inyeccion de dependencia
     @Autowired
     private AccountRepository accountRepository;
+
     @Autowired
     private ClientService clientService;
     @Autowired
     private ClientRepository clientRepository;
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts() {
-
         return accountRepository
                 .findAll()
                 .stream()

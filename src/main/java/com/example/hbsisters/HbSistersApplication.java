@@ -73,6 +73,7 @@ private PasswordEncoder passwordEncoder;
 				loan3.addClientLoan(clientLoan3);
 
 				cliente1.addClientLoan(clientLoan1);
+				cliente1.addClientLoan(clientLoan2);
 				cliente2.addClientLoan(clientLoan3);
 
 

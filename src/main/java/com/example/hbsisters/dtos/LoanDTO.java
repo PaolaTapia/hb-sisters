@@ -1,11 +1,8 @@
 package com.example.hbsisters.dtos;
 
-import com.example.hbsisters.models.ClientLoan;
 import com.example.hbsisters.models.Loan;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,9 +10,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class LoanDTO {
-    private Long id;
-    private String name;
-    private double amount;
+    private final Long id;
+    private final String name;
+    private final double maxAmount;
     @ElementCollection
     private List<Integer> payments = new ArrayList<>();
 
@@ -24,7 +21,7 @@ public class LoanDTO {
     public LoanDTO(Loan loan) {
         this.id=loan.getId();
         this.name = loan.getName();
-        this.amount = loan.getAmount();
+        this.maxAmount = loan.getMaxAmount();
         this.payments = loan.getPayments();
         this.clients= loan.getClientLoans()
                 .stream()
@@ -40,8 +37,8 @@ public class LoanDTO {
         return name;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getMaxAmount() {
+        return maxAmount;
     }
 
 

@@ -1,22 +1,13 @@
 package com.example.hbsisters.dtos;
 
-import com.example.hbsisters.models.Loan;
-
-import javax.persistence.ElementCollection;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 public class LoanApplicationDTO {
 
         private Long loanId;
         private double amount;
         private Integer payments;
-        private String accountToNumber;
+        private String toAccountNumber;
 
-    public Long getId() {
+    public Long getLoanId() {
         return loanId;
     }
 
@@ -28,17 +19,9 @@ public class LoanApplicationDTO {
         return payments;
     }
 
-    public String getAccountToNumber() {
-        return accountToNumber;
+    public String getToAccountNumber() {
+        return toAccountNumber;
     }
 
-    public LoanApplicationDTO() {
-    }
-
-    public LoanApplicationDTO(double amount, Integer payments, String accountToNumber) {
-        this.amount = amount;
-        this.payments = payments;
-        this.accountToNumber = accountToNumber;
-    }
 }
 
