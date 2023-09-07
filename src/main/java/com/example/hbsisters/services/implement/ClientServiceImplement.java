@@ -7,7 +7,6 @@ import com.example.hbsisters.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ private ClientRepository clientRepository;
     }
 
     @Override
-    public ClientDTO getClient(@PathVariable Long id) {
+    public ClientDTO getClient(Long id) {
         return clientRepository
                 .findById(id)
                 .map(ClientDTO::new)

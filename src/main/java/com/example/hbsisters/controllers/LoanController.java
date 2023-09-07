@@ -10,6 +10,7 @@ import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
 import com.example.hbsisters.repositories.LoanRepository;
 import com.example.hbsisters.repositories.TransactionRepository;
+import com.example.hbsisters.services.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class LoanController {
 
     @Autowired
     private LoanRepository loanRepository;
+    @Autowired
+    private LoanService loanService;
     @Autowired
     private ClientRepository clientRepository;
     @Autowired

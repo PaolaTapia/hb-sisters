@@ -4,6 +4,7 @@ import com.example.hbsisters.dtos.CardDTO;
 import com.example.hbsisters.models.*;
 import com.example.hbsisters.repositories.CardRepository;
 import com.example.hbsisters.repositories.ClientRepository;
+import com.example.hbsisters.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class CardController {
+    @Autowired
+    private CardService cardService;
     @Autowired
     private CardRepository cardRepository;
     @Autowired

@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 public interface CardService {
-    List<CardDTO> getCards();
+    List<CardDTO> getAllCards();
     CardDTO getCardDTO(Long id);
 }

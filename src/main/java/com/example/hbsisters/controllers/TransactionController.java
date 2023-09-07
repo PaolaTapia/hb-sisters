@@ -25,6 +25,8 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
+    private  TransactionService transactionService;
+    @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private AccountRepository accountRepository;
