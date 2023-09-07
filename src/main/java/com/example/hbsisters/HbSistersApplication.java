@@ -38,7 +38,7 @@ private PasswordEncoder passwordEncoder;
 			){
 		return args -> {
 //la clave del uno va a la del mucho
-
+/*
 			Transaction transaction1= new Transaction(TypeTransaction.CREDIT,1000,"retiro por cajero", myObj.atStartOfDay());
 			Transaction transaction2= new Transaction(TypeTransaction.DEBIT,1000,"transferencia", myObj.atStartOfDay());
 			Transaction transaction3= new Transaction(TypeTransaction.DEBIT,1000,"retiro por cajero", myObj.atStartOfDay());
@@ -105,7 +105,7 @@ private PasswordEncoder passwordEncoder;
 			clientLoanRepository.save(clientLoan2);
 
 			cardRepository.save(card1);
-			cardRepository.save(card2);
+			cardRepository.save(card2);*/
 		};
 	}
 }
