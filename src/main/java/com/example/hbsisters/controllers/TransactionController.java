@@ -5,6 +5,7 @@ import com.example.hbsisters.models.*;
 import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
 import com.example.hbsisters.repositories.TransactionRepository;
+import com.example.hbsisters.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,6 @@ public class TransactionController {
     //servlets
     @RequestMapping("/transactions")
     public List<TransactionDTO> getTransactions (){
-
         return transactionRepository
                 .findAll()
                 .stream()
@@ -40,7 +40,6 @@ public class TransactionController {
 
     @RequestMapping("/transactions/{id}")
     public TransactionDTO getTransactionDTO(@PathVariable Long id){
-
         return transactionRepository
                 .findById(id)
                 .map(TransactionDTO::new)
