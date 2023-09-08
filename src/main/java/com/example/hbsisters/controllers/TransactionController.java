@@ -2,9 +2,6 @@ package com.example.hbsisters.controllers;
 
 import com.example.hbsisters.dtos.TransactionDTO;
 import com.example.hbsisters.models.*;
-import com.example.hbsisters.repositories.AccountRepository;
-import com.example.hbsisters.repositories.ClientRepository;
-import com.example.hbsisters.repositories.TransactionRepository;
 import com.example.hbsisters.services.AccountService;
 import com.example.hbsisters.services.ClientService;
 import com.example.hbsisters.services.TransactionService;
