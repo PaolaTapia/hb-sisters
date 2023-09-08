@@ -2,9 +2,8 @@ package com.example.hbsisters.controllers;
 
 import com.example.hbsisters.dtos.CardDTO;
 import com.example.hbsisters.models.*;
-import com.example.hbsisters.repositories.CardRepository;
-import com.example.hbsisters.repositories.ClientRepository;
 import com.example.hbsisters.services.CardService;
+import com.example.hbsisters.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,35 +20,24 @@ import java.util.stream.Collectors;
 public class CardController {
     @Autowired
     private CardService cardService;
-    @Autowired
-    private CardRepository cardRepository;
-    @Autowired
-    private ClientRepository clientRepository;
+       @Autowired
+    private ClientService clientService;
 
     @RequestMapping("/cards")
     public List<CardDTO> getCards() {
-
-        return cardRepository
-                .findAll()
-                .stream()
-                .map(CardDTO::new)
-                .collect(Collectors.toList());
+        return cardService.getAllCards();
     }
 
     @RequestMapping("/cards/{id}")
     public CardDTO getCardDTO(@PathVariable Long id){
-
-        return cardRepository
-                .findById(id)
-                .map(CardDTO::new)
-                .orElse(null);
+        return cardService.getCardDTO(id);
     }
 
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> registerCard( @RequestParam CardType cardType, @RequestParam ColorType cardColor, Authentication authentication) {
+        Client client = clientService.getCurrentClient(authentication) ;
 
-        Client client = clientRepository.findByEmail(authentication.getName());
 
 //también lo chequea el front
         if (cardType==null ) {
@@ -67,7 +55,7 @@ public class CardController {
         if(!cards3.isEmpty()) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
 
         String newNumberCard= ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000);
-        if(cardRepository.findByNumber(newNumberCard)!=null) {
+        if(cardService.getCardByNumber(newNumberCard)!=null) {
             return new ResponseEntity<>("Card Number already exists", HttpStatus.FORBIDDEN);
         }
 
@@ -75,18 +63,15 @@ public class CardController {
 
 
         client.addCard(card);
-        cardRepository.save(card);
+        cardService.saveCard(card);
         return new ResponseEntity<>("card created!",HttpStatus.CREATED);
 
     }
     @RequestMapping(path = "/clients/current/cards")
     public List<CardDTO> getCards (Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getCurrentClient(authentication) ;
 
-        return cardRepository.findByHolder(client)
-                .stream()
-                .map(card ->new CardDTO(card))
-                .collect(Collectors.toList());
+        return cardService.getCardByHolder(client);
 
     }
 

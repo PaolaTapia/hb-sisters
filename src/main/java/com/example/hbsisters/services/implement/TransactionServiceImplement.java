@@ -1,6 +1,7 @@
 package com.example.hbsisters.services.implement;
 
 import com.example.hbsisters.dtos.TransactionDTO;
+import com.example.hbsisters.models.Transaction;
 import com.example.hbsisters.repositories.TransactionRepository;
 import com.example.hbsisters.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,12 @@ public class TransactionServiceImplement implements TransactionService {
                 .findById(id)
                 .map(TransactionDTO::new)
                 .orElse(null);
-    };
+    }
+
+    @Override
+    public void saveTransaction(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
+
+    ;
 }

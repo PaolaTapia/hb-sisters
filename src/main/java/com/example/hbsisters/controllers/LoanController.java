@@ -10,7 +10,10 @@ import com.example.hbsisters.repositories.AccountRepository;
 import com.example.hbsisters.repositories.ClientRepository;
 import com.example.hbsisters.repositories.LoanRepository;
 import com.example.hbsisters.repositories.TransactionRepository;
+import com.example.hbsisters.services.AccountService;
+import com.example.hbsisters.services.ClientService;
 import com.example.hbsisters.services.LoanService;
+import com.example.hbsisters.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,37 +30,26 @@ import java.util.stream.Collectors;
 public class LoanController {
 
     @Autowired
-    private LoanRepository loanRepository;
-    @Autowired
     private LoanService loanService;
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
     @RequestMapping("/loans")
     public List<LoanDTO> getLoans() {
-
-        return loanRepository
-                .findAll()
-                .stream()
-                .map(LoanDTO::new)
-                .collect(Collectors.toList());
+        return loanService.getLoans();
     };
 
     @RequestMapping("loans/{id}")
     public LoanDTO getLoanDTO(@PathVariable Long id){
-
-        return loanRepository
-                .findById(id)
-                .map(LoanDTO::new)
-                .orElse(null);
+        return loanService.getLoanDTO(id);
     }
     @Transactional
     @RequestMapping(value = "/loans", method = RequestMethod.POST)
     public ResponseEntity<String> addLoan(@RequestBody LoanApplicationDTO LoanApp, Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getCurrentClient(authentication);
 
         double amount = LoanApp.getAmount();
         String toAccountNumber = LoanApp.getToAccountNumber();
@@ -72,9 +64,9 @@ public class LoanController {
 
 
         if(toAccountNumber.isEmpty())  return new ResponseEntity<>("account empty", HttpStatus.FORBIDDEN);
-        Account account= accountRepository.findByNumber(toAccountNumber);
+        Account account= accountService.getAccountByNumber(toAccountNumber);
         if(account==null)  return new ResponseEntity<>("the account does not exist", HttpStatus.FORBIDDEN);
-        List<Account> accounts  = accountRepository.findByOwner(client);
+        List<Account> accounts  = accountService.getAccountsByOwner(client);
         if(!accounts.contains(account)) return new ResponseEntity<>("the account is not correct", HttpStatus.FORBIDDEN);
 
         Integer payments=  LoanApp.getPayments();
@@ -82,7 +74,7 @@ public class LoanController {
         if(!loan.getPayments().contains(payments))  return new ResponseEntity<>("payment not included", HttpStatus.FORBIDDEN);
 
 
-        Account dest_account= accountRepository.findByNumber(toAccountNumber);
+        Account dest_account= accountService.getAccountByNumber(toAccountNumber);
 
         Transaction transaction_dest = new Transaction(TypeTransaction.CREDIT,amount, loan.getName()+" loan approved",LocalDate.now().atStartOfDay());
 
@@ -90,8 +82,8 @@ public class LoanController {
         dest_account.addTransaction(transaction_dest);
         dest_account.setBalance(dest_account.getBalance()+amount);
 
-        transactionRepository.save(transaction_dest);
-        accountRepository.save(dest_account);
+        transactionService.saveTransaction(transaction_dest);
+        accountService.saveAccount(dest_account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

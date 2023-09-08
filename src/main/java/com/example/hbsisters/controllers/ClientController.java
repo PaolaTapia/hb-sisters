@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -41,7 +40,7 @@ public class ClientController {
     }
     @RequestMapping("/clients/current")
     public ClientDTO getClientDTO(Authentication authentication){
-        return clientService.getCurrentClient(authentication);
+        return  new ClientDTO(clientService.getCurrentClient(authentication));
     }
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)

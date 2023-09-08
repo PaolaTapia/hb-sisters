@@ -33,9 +33,9 @@ private ClientRepository clientRepository;
     }
 
     @Override
-    public ClientDTO getCurrentClient(Authentication authentication) {
-        return  new ClientDTO( clientRepository
-                .findByEmail(authentication.getName()));
+    public Client getCurrentClient(Authentication authentication) {
+        return  clientRepository
+                .findByEmail(authentication.getName());
     }
 
     @Override
