@@ -1,0 +1,15 @@
+package com.example.hbsisters.services;
+
+import com.example.hbsisters.dtos.TransactionDTO;
+import com.example.hbsisters.models.Account;
+import com.example.hbsisters.models.Transaction;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
+public interface TransactionService {
+    List<TransactionDTO> getTransactions ();
+    TransactionDTO getTransactionDTO(Long id);
+
+    void saveTransaction(Transaction transaction);
+}
