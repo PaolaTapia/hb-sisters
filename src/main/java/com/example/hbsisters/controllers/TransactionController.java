@@ -2,9 +2,8 @@ package com.example.hbsisters.controllers;
 
 import com.example.hbsisters.dtos.TransactionDTO;
 import com.example.hbsisters.models.*;
-import com.example.hbsisters.repositories.AccountRepository;
-import com.example.hbsisters.repositories.ClientRepository;
-import com.example.hbsisters.repositories.TransactionRepository;
+import com.example.hbsisters.services.AccountService;
+import com.example.hbsisters.services.ClientService;
 import com.example.hbsisters.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,29 +20,21 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class TransactionController {
-
     @Autowired
-    private TransactionRepository transactionRepository;
+    private  TransactionService transactionService;
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
     //servlets
     @RequestMapping("/transactions")
     public List<TransactionDTO> getTransactions (){
-        return transactionRepository
-                .findAll()
-                .stream()
-                .map(TransactionDTO::new)
-                .collect(Collectors.toList());
+        return transactionService.getTransactions();
     }
 
     @RequestMapping("/transactions/{id}")
     public TransactionDTO getTransactionDTO(@PathVariable Long id){
-        return transactionRepository
-                .findById(id)
-                .map(TransactionDTO::new)
-                .orElse(null);
+        return transactionService.getTransactionDTO(id);
     }
 
     @Transactional
@@ -53,7 +44,7 @@ public class TransactionController {
             @RequestParam  String fromAccountNumber, @RequestParam  String toAccountNumber,
             Authentication authentication)  {
 
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getCurrentClient(authentication);
 
         if (amount==0 || description.isEmpty()) {
             return new ResponseEntity<>("Missing amount or description", HttpStatus.FORBIDDEN);
@@ -67,7 +58,7 @@ public class TransactionController {
             return new ResponseEntity<>("Missing destination account number.", HttpStatus.FORBIDDEN);
         }
 
-        Account origin_account= accountRepository.findByNumber(fromAccountNumber);
+        Account origin_account= accountService.getAccountByNumber(fromAccountNumber);
 
         if(origin_account==null){
             return new ResponseEntity<>("Origin account number does not exist.", HttpStatus.FORBIDDEN);
@@ -77,13 +68,13 @@ public class TransactionController {
             return new ResponseEntity<>("You have no available balance.", HttpStatus.FORBIDDEN);
         };
 
-        List<Account> accounts= accountRepository.findByOwner(client);
+        List<Account> accounts= accountService.getAccountsByOwner(client);
 
         //if(origin_account.getOwner() == client){
         if(!accounts.contains(origin_account)){
             return new ResponseEntity<>("Origin account number does not belong to you.", HttpStatus.FORBIDDEN);
         };
-        Account dest_account= accountRepository.findByNumber(toAccountNumber);
+        Account dest_account= accountService.getAccountByNumber(toAccountNumber);
         if(dest_account==null){
             return new ResponseEntity<>("Destination account number does not exist.", HttpStatus.FORBIDDEN);
         };
@@ -100,11 +91,11 @@ public class TransactionController {
         dest_account.addTransaction(transaction_dest);
         dest_account.setBalance(dest_account.getBalance()+amount);
 
-        transactionRepository.save(transaction_orig);
-        transactionRepository.save(transaction_dest);
+        transactionService.saveTransaction(transaction_orig);
+        transactionService.saveTransaction(transaction_dest);
 
-        accountRepository.save(origin_account);
-        accountRepository.save(dest_account);
+        accountService.saveAccount(origin_account);
+        accountService.saveAccount(dest_account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 

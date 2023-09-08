@@ -3,8 +3,6 @@ package com.example.hbsisters.controllers;
 import com.example.hbsisters.dtos.AccountDTO;
 import com.example.hbsisters.models.Account;
 import com.example.hbsisters.models.Client;
-import com.example.hbsisters.repositories.AccountRepository;
-import com.example.hbsisters.repositories.ClientRepository;
 import com.example.hbsisters.services.AccountService;
 import com.example.hbsisters.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,57 +19,47 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AccountController {
 
-    //inyeccion de dependencia
+    //@Autowiredinyeccion de dependencia
     @Autowired
-    private AccountRepository accountRepository;
-
+    private AccountService accountService;
     @Autowired
     private ClientService clientService;
-    @Autowired
-    private ClientRepository clientRepository;
+
+    //Servlets
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts() {
-        return accountRepository
-                .findAll()
-                .stream()
-                .map(AccountDTO::new)
-                .collect(Collectors.toList());
+        return accountService.getAllAccounts();
     };
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccountDTO(@PathVariable Long id){
-
-        return accountRepository
-                .findById(id)
-                .map(AccountDTO::new)
-                .orElse(null);
+        return accountService.getAccountDTO(id);
     }
 
     @PostMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> registerAccount(Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getCurrentClient(authentication);
 
-        if(client.getAccounts().size()>3) {return new ResponseEntity<>("too many accounts", HttpStatus.FORBIDDEN);}
+        if(client.getAccounts().size()>3) {
+            return new ResponseEntity<>("too many accounts", HttpStatus.FORBIDDEN);
+        }
 
         String newNumberAccount="VIN-"+((int)(Math.random() * (99999999 - 10000000)) + 10000000);
-        if(accountRepository.findByNumber(newNumberAccount)!=null) {
+        if(accountService.getAccountByNumber(newNumberAccount)!=null) {
             return new ResponseEntity<>("Account Number already exists", HttpStatus.FORBIDDEN);
         }
 
         Account account= new Account( newNumberAccount, LocalDate.now(), 0);
         client.addAccount(account);
-        accountRepository.save(account);
+        accountService.saveAccount(account);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
     @GetMapping(path = "/clients/current/accounts")
     public List<AccountDTO> getAccounts (Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getCurrentClient(authentication) ;
 
-        return accountRepository.findByOwner(client)
-                .stream()
-                .map(account ->new AccountDTO(account))
-                .collect(Collectors.toList());
+        return accountService.getAccountsByClient(client);
 
     }
 }

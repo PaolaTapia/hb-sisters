@@ -11,8 +11,10 @@ public interface ClientService {
 
     List<ClientDTO> getAllClients();
     ClientDTO getClient(Long id);
-    ClientDTO getCurrentClient(Authentication authentication);
+    Client getCurrentClient(Authentication authentication);
 
     void saveClient(Client client);
+
+
 
 }
