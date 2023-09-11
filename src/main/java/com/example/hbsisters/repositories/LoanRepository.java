@@ -1,12 +1,10 @@
 package com.example.hbsisters.repositories;
 
-import com.example.hbsisters.models.Account;
-import com.example.hbsisters.models.Client;
+import com.example.hbsisters.models.Loan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface ClientRepository extends JpaRepository<Client,Long> {
-    Client findByEmail(String inputEmail);
+public interface LoanRepository extends JpaRepository<Loan,Long> {
 
 }
