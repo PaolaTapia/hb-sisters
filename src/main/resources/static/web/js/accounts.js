@@ -9,6 +9,11 @@ Vue.createApp({
     },
     methods: {
         getData: function () {
+           let config = {
+                        headers: {
+                            'content-type': 'application/xml'
+                        }
+                    }
             axios.get("/api/clients/current")
                 .then((response) => {
                     //get client ifo

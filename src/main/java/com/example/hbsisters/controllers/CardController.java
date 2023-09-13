@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.example.hbsisters.utils.CardUtils.getCardNumber;
+import static com.example.hbsisters.utils.CardUtils.getCvv;
+
 @RestController
 @RequestMapping("/api")
 public class CardController {
@@ -54,12 +57,12 @@ public class CardController {
         if(cards2.size()>=3) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
         if(!cards3.isEmpty()) {return new ResponseEntity<>("too many cards", HttpStatus.FORBIDDEN);}
 
-        String newNumberCard= ((int)(Math.random() * (9999 - 1000)) + 1000) +"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000)+"-"+((int)(Math.random() * (9999 - 1000)) + 1000);
+        String newNumberCard = getCardNumber();
         if(cardService.getCardByNumber(newNumberCard)!=null) {
             return new ResponseEntity<>("Card Number already exists", HttpStatus.FORBIDDEN);
         }
-
-        Card card= new Card( cardType, newNumberCard, ((int)(Math.random() * (999 - 100)) + 100), LocalDate.now(),LocalDate.now().plusYears(5), cardColor,client);
+int cvv= getCvv();
+        Card card= new Card( cardType, newNumberCard, cvv, LocalDate.now(),LocalDate.now().plusYears(5), cardColor,client);
 
 
         client.addCard(card);
@@ -67,6 +70,7 @@ public class CardController {
         return new ResponseEntity<>("card created!",HttpStatus.CREATED);
 
     }
+
     @RequestMapping(path = "/clients/current/cards")
     public List<CardDTO> getCards (Authentication authentication) {
         Client client = clientService.getCurrentClient(authentication) ;

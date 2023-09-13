@@ -14,8 +14,11 @@ import java.util.List;
 
 @SpringBootApplication
 public class HbSistersApplication {
+
+	/*
 @Autowired
 private PasswordEncoder passwordEncoder;
+ */
  	public static void main(String[] args) {
 		SpringApplication.run(HbSistersApplication.class, args);
 	}
